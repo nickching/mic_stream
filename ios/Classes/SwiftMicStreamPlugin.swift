@@ -156,8 +156,8 @@ public class SwiftMicStreamPlugin: NSObject, FlutterStreamHandler, FlutterPlugin
                 if(self.session.canAddOutput(audioOutput)){
                     self.session.addOutput(audioOutput)
                 }
-
-                DispatchQueue.main.async {
+                // Start AVCaptureSession on a background queue to avoid blocking the main thread
+                DispatchQueue.global(qos: .userInitiated).async {
                     self.session.startRunning()
                 }
             } catch let e {
